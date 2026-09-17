@@ -32,7 +32,16 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 76
         }
-      ]
+      ],
+      "expo-status-bar",
+      "expo-secure-store",
+      "expo-sqlite",
+      "expo-web-browser",
+      "expo-image",
+      "expo-font",
+      "expo-sharing",
+      "expo-localization",
+      "@sentry/react-native"
     ],
     "experiments": {
       "typedRoutes": true,
