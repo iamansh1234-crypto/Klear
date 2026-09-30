@@ -13,3 +13,7 @@ export async function markOnboardingDone() {
 export async function resetOnboarding() {
   await AsyncStorage.removeItem(ONBOARDING_KEY);
 }
+
+export async function clearStorage(){
+  await AsyncStorage.clear();
+}

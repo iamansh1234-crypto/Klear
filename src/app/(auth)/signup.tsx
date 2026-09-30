@@ -30,16 +30,14 @@ export default function SignUp() {
       return;
     }
     try {
-      await signup({ email, phone, password });
-      router.replace("/home");
+      await signup({ email: email.trim(), phone: phone.trim(), password });
+      router.replace("/(auth)/verify");
     } catch (e: any) {
-  console.log("=== SIGNUP ERROR ===");
-  console.log("message:", e?.message);
-  console.log("status:", e?.response?.status);
-  console.log("data:", JSON.stringify(e?.response?.data));
-  console.log("url:", e?.config?.baseURL, e?.config?.url);
-  Alert.alert("Signup failed", e?.message ?? "unknown");
-}
+      Alert.alert(
+        "Signup failed",
+        e?.response?.data?.error ?? "Server se connect nahi ho paya."
+      );
+    }
   };
 
   return (
@@ -53,7 +51,7 @@ export default function SignUp() {
           top: -height * 0.055,
           left: -width * 0.18,
           width: width * 0.52,
-          height: height * 0.20,
+          height: height * 0.2,
           transform: [{ rotate: "-18deg" }],
         }}
         contentFit="contain"
@@ -65,7 +63,7 @@ export default function SignUp() {
         style={{
           position: "absolute",
           bottom: height * 0.14,
-          right: -width * 0.10,
+          right: -width * 0.1,
           width: width * 0.38,
           height: height * 0.17,
         }}
@@ -110,18 +108,24 @@ export default function SignUp() {
               value={email}
               onChangeText={setEmail}
               keyboardType="email-address"
+              textContentType="emailAddress"
+              autoComplete="email"
             />
             <Field
               placeholder="Phone no."
               value={phone}
               onChangeText={setPhone}
               keyboardType="phone-pad"
+              textContentType="telephoneNumber"
+              autoComplete="tel"
             />
             <Field
               placeholder="Password"
               value={password}
               onChangeText={setPassword}
               secureTextEntry
+              textContentType="newPassword"
+              autoComplete="new-password"
             />
           </View>
         </ScrollView>
@@ -147,6 +151,7 @@ function Field(props: React.ComponentProps<typeof TextInput>) {
       {...props}
       placeholderTextColor="#8A8A8A"
       autoCapitalize="none"
+      autoCorrect={false}
       style={{
         height: 42,
         borderRadius: 10,

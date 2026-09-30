@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import { View, ActivityIndicator } from "react-native";
 import { Redirect } from "expo-router";
-import * as SecureStore from "expo-secure-store";
+import { useAuth } from "@/store/auth";
 
 export default function Index() {
+  const restore = useAuth((s) => s.restore);
   const [target, setTarget] = useState<string | null>(null);
 
   useEffect(() => {
-    SecureStore.getItemAsync("klear_token").then((token) => {
-      setTarget(token ? "/home" : "/(onboarding)");
-    });
+    restore().then((ok) => setTarget(ok ? "/home" : "/(onboarding)"));
   }, []);
 
   if (!target) {
